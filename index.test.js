@@ -15,4 +15,14 @@ describe("./musicians endpoint", () => {
     const response = await request(app).get("/musicians");
     expect(response.statusCode).toBe(200);
   });
+  it("responds with a JSON musician object when musician exists", async () => {
+    const createdMusician = await Musician.create({ name: "John Doe" });
+
+    const response = await request(app).get(`/musicians/${createdMusician.id}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toEqual(
+      expect.objectContaining({ name: "John Doe" })
+    );
+  });
 });
